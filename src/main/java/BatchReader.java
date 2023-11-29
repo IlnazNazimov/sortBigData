@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 /**
- * Класс для представления читателя файла
+ * РљР»Р°СЃСЃ РґР»СЏ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ С‡РёС‚Р°С‚РµР»СЏ С„Р°Р№Р»Р°
  */
 public class BatchReader implements Comparable<BatchReader> {
     private final BufferedReader reader;
@@ -31,4 +31,5 @@ public class BatchReader implements Comparable<BatchReader> {
     public int compareTo(BatchReader other) {
         return this.currentLine.compareTo(other.currentLine);
     }
+
 }

@@ -1,9 +1,8 @@
 public class Main {
 
-    public static final int BATCH_SIZE = 1000000;  // Размер части файла, который помещается в память
-    public static final String INPUT_FILE_PATH = null;   // Путь к входному файлу
-    public static final String OUTPUT_FILE_DIR = null;   // Директория к выходному файлу
-
+    public static final int BATCH_SIZE = 1000000;  // Р Р°Р·РјРµСЂ С‡Р°СЃС‚Рё С„Р°Р№Р»Р°, РєРѕС‚РѕСЂС‹Р№ РїРѕРјРµС‰Р°РµС‚СЃСЏ РІ РїР°РјСЏС‚СЊ
+    public static final String INPUT_FILE_PATH = null;   // РџСѓС‚СЊ Рє РІС…РѕРґРЅРѕРјСѓ С„Р°Р№Р»Сѓ
+    public static final String OUTPUT_FILE_DIR = null;   // Р”РёСЂРµРєС‚РѕСЂРёСЏ Рє РІС‹С…РѕРґРЅРѕРјСѓ С„Р°Р№Р»Сѓ
     public static void main(String[] args) {
         SortFileWithBigData.multiStageFileSorting(INPUT_FILE_PATH, OUTPUT_FILE_DIR, BATCH_SIZE);
     }
