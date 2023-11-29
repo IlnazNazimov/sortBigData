@@ -13,34 +13,35 @@ import java.util.TreeSet;
 public class SortFileWithBigData {
 
     /**
-     * Считывает данные из inputFilePath сортирует и записывает в новый файл
-     * @param inputFilePath Путь входного файла
-     * @param outputFilePath Путь выходного файла
-     * @param batchSize Количество строк, который вмещает память
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ inputFilePath пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+     * @param inputFilePath пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+     * @param outputFileDir пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+     * @param batchSize пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      */
-    public static void multiStageFileSorting(String inputFilePath, String outputFilePath, int batchSize) {
-        System.out.println("Начинаем сортировку...");
+    public static void multiStageFileSorting(String inputFilePath, String outputFileDir, int batchSize) {
+        System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ...");
 
         List<String> batchFilePaths = new ArrayList<>();
+        if (inputFilePath == null) throw new RuntimeException("РќРµ СѓРєР°Р·Р°РЅ РїСѓС‚СЊ Рє РІС…РѕРґРЅРѕРјСѓ С„Р°Р№Р»Сѓ");
         splitIntoSmallSortedFiles(inputFilePath, batchSize, batchFilePaths);
 
-        // Слияние отсортированных файлов
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (!batchFilePaths.isEmpty()) {
-            mergeSortedFiles(batchFilePaths, outputFilePath);
+            mergeSortedFiles(batchFilePaths, outputFileDir);
         } else {
-            throw new RuntimeException("Во входном файле отсутствуют данные");
+            throw new RuntimeException("пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
         }
 
         cleanTempFiles(batchFilePaths);
 
-        System.out.println("Данные в файле были отсортированы.");
+        System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
     }
 
     /**
-     * Разбивает входной файл на небольшие файлы с отсортированными данными
-     * @param inputFilePath Путь входного файла
-     * @param batchSize Количество строк, которые вмещает память
-     * @param batchFilePaths Список путей к файлам
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param inputFilePath пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+     * @param batchSize пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param batchFilePaths пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      */
     private static void splitIntoSmallSortedFiles(String inputFilePath, int batchSize, List<String> batchFilePaths) {
         Set<String> batch = new TreeSet<>();
@@ -52,29 +53,29 @@ public class SortFileWithBigData {
                 batch.add(line);
                 lineCount++;
 
-                // Каждый раз после прохождения batchSize строк записываем партию в новый файл
+                // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ batchSize пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 if (lineCount == batchSize) {
                     writeInFile(batchFilePaths, batch);
 
-                    // Сбрасываем счетчик и очищаем партию для следующей порции данных
+                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                     lineCount = 0;
                     batch.clear();
                 }
             }
 
-            // Обработка последней партии, которая может быть меньше batchSize
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ batchSize
             if (!batch.isEmpty()) {
                 writeInFile(batchFilePaths, batch);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Возникла ошибка при разбиении файла : " + e.getMessage());
+            throw new RuntimeException("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ : " + e.getMessage());
         }
     }
 
     /**
-     * Записывает партию строк в новый файл
-     * @param batchFilePaths Список путей к файлам
-     * @param batch Партия строк
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+     * @param batchFilePaths пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param batch пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
      */
     private static void writeInFile(List<String> batchFilePaths, Set<String> batch) throws IOException {
         String batchFilePath = "batch_" + batchFilePaths.size() + ".txt";
@@ -88,16 +89,16 @@ public class SortFileWithBigData {
     }
 
     /**
-     * Объединяет все файлы из batchFilePaths в один
-     * @param batchFilePaths Список путей к файлам
-     * @param outputFilePath Путь выходного файла
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ batchFilePaths пїЅ пїЅпїЅпїЅпїЅ
+     * @param batchFilePaths пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param outputFileDir пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
      */
-    public static void mergeSortedFiles(List<String> batchFilePaths, String outputFilePath) {
+    public static void mergeSortedFiles(List<String> batchFilePaths, String outputFileDir) {
         List<BufferedReader> readers = new ArrayList<>();
         PriorityQueue<BatchReader> queueBatchReaders = new PriorityQueue<>(batchFilePaths.size());
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
-            // Открываем читателей для каждой партии
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileDir + "/output.txt"))) {
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             for (String filePath : batchFilePaths) {
                 BufferedReader reader = new BufferedReader(new FileReader(filePath));
                 readers.add(reader);
@@ -106,23 +107,23 @@ public class SortFileWithBigData {
             }
 
             while (!queueBatchReaders.isEmpty()) {
-                // Берем из очереди BatchReader, который имеет самую большую строку(по compare)
+                // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ BatchReader, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ(пїЅпїЅ compare)
                 BatchReader currentReader = queueBatchReaders.poll();
                 String line = currentReader.readLine();
 
-                // Записываем эту строку в файл
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
                 if (line != null) {
                     writer.write(line);
                     writer.newLine();
                 }
 
-                // Если имеются еще строки, то снова помещаем BatchReader в очередь
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ BatchReader пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 if (currentReader.hasMoreLines()) {
                     queueBatchReaders.offer(currentReader);
                 }
             }
 
-            // Закрываем читателей
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             for (BufferedReader reader : readers) {
                 reader.close();
             }
@@ -132,8 +133,8 @@ public class SortFileWithBigData {
     }
 
     /**
-     * Удаляет временные файлы
-     * @param batchFilePaths Список путей к файлам
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+     * @param batchFilePaths пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      */
     private static void cleanTempFiles(List<String> batchFilePaths) {
         for (String filePath : batchFilePaths) {
